@@ -70,7 +70,7 @@ const Signup = () => {
       case "email":
         if (!value.trim()) {
           error = "Email is required!";
-        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
+        } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/) {
           error = "Enter a valid email address!";
         }
         break;
@@ -83,15 +83,35 @@ const Signup = () => {
         }
         break;
 
+      // case "password":
+      //   if (!value.trim()) {
+      //     error = "Password is required!";
+      //   } else if (value.length < 6) {
+      //     error = "Password must be at least 6 characters!";
+      //   } else if (!/[a-zA-Z]/.test(value)) {
+      //     error = "Password must have at least one letter!";
+      //   } else if (!/[0-9]/.test(value)) {
+      //     error = "Password must have one number!";
+      //   }
+      //   break;
       case "password":
         if (!value.trim()) {
           error = "Password is required!";
-        } else if (value.length < 6) {
+        } 
+        else if (value.length < 6) {
           error = "Password must be at least 6 characters!";
-        } else if (!/[A-Z]/.test(value)) {
-          error = "Password must have one uppercase letter!";
-        } else if (!/[0-9]/.test(value)) {
-          error = "Password must have one number!";
+        } 
+        else if (!/[A-Z]/.test(value)) {
+          error = "Password must contain one uppercase letter!";
+        } 
+        else if (!/[a-z]/.test(value)) {
+          error = "Password must contain one lowercase letter!";
+        } 
+        else if (!/[0-9]/.test(value)) {
+          error = "Password must contain one number!";
+        } 
+        else if (!/[@$!%*?&]/.test(value)) {
+          error = "Password must contain one special character!";
         }
         break;
 
@@ -344,7 +364,7 @@ const Signup = () => {
                   data-bs-toggle="modal"
                   data-bs-target="#loginModal"
                 >
-                  Login
+                  Login🔥😎
                 </button>
               </div>
             </div>

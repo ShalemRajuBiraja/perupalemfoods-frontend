@@ -1,102 +1,5 @@
-// import React from "react";
-// import "../index.css";
-
-// const Login = () => {
-
-//   //login data
-//   let[loginData, setLoginData] = useState([{
-//     email: "",
-//     password: ""
-//   }])
-
-//   //errors variables
-//   let[loginErrors, setLoginErrors] = useState({
-//     email : "",
-//     password: ""
-//   })
- 
-
-
-// const handleLogin = ()=>{
-//  let tempErrors = {...loginErrors};
-
-//   if(isEmailValid(loginData.email) == false){
-//     setLoginErrors({...LoginErrors, email: "Please enter a valid email address"})
-//   }
-
-
-
-
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//   return (
-//     <div className="modal fade" id="loginModal" tabIndex="-1" aria-hidden="true">
-
-//       {/* ✅ Width goes here! */}
-//       <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: "380px" }}>
-//         <div className="modal-content">
-
-//           {/* Header */}
-//           <div className="modal-header">
-//             <h5 className="modal-title">Login Form</h5>
-//             <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
-//           </div>
-
-//           {/* Body */}
-//           <div className="modal-body">
-
-//             {/* Email */}
-//             <div className="mb-3">
-//               <label className="form-label">Email</label>
-//               <input type="email" className="form-control" placeholder="Enter your email" />
-//             </div>
-
-//             {/* Password */}
-//             <div className="mb-3">
-//               <label className="form-label">Password</label>
-//               <input type="password" className="form-control" placeholder="Enter your password" />
-//             </div>
-
-//             {/* Login Button */}
-//             <button className="btn btn-dark w-100">Login</button>
-
-//             {/* Signup */}
-//             <div className="text-center mt-3">
-//               <p className="mb-2">Don't have an account?</p>
-//               <div className="d-grid gap-2">
-//                 <button
-//                   className="btn text-white bg-success"
-//                   data-bs-dismiss="modal"
-//                   data-bs-toggle="modal"
-//                   data-bs-target="#signupModal"
-//                 >
-//                   Signup
-//                 </button>
-//               </div>
-//             </div>
-
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Login;
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "../index.css";
 
 const Login = () => {
@@ -198,16 +101,26 @@ const Login = () => {
       return;
     }
     try {
-      setIsSubmitting(true);
-      console.log("Calling API...", formData);
-       await axios.post("http://localhost:8080/auth/login", formData);
-      setIsSubmitting(false);
-    } catch (error) {
-      setIsSubmitting(false);
-      setErrors({ api: "Invalid email or password!" });
-    }
+          setIsSubmitting(true);
+          console.log("Calling API...", formData);
+
+          let loginResponse = await axios.post("http://localhost:8080/auth/login", formData);
+          setIsSubmitting(false);
+
+          if (loginResponse.data.success) {
+            localStorage.setItem("userData", JSON.stringify(loginResponse.data.data));
+            localStorage.setItem("token", loginResponse.data.data.token);
+            window.location.href = "/home";
+          }
+        } catch (err){
+            setIsSubmitting(false);
+            console.error("Login failed", err);
+            setErrors({ api: err.response?.data?.message || "Login failed" }); // ✅ Fixed
+          }
   };
 
+
+  
   return (
     <div className="modal fade" id="loginModal" tabIndex="-1" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: "380px" }}>

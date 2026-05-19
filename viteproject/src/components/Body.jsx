@@ -2,12 +2,21 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../index.css';
+import Order from './Order';
 
 
 const Body = () =>{
 
 //variables
  let[productslist, setProductsList] = useState([]);
+ const[selectedProduct, setSelectedProduct] = useState(null);
+
+
+
+ const handleOrderForm = (product) =>{
+    setSelectedProduct(product);
+ }
+
 
 useEffect(() => {
     console.log("useEffect running!"); // ← Add this first!
@@ -23,13 +32,13 @@ useEffect(() => {
       }
     };
     getProductsList();
-}, []);
+}, [])
 
 
     return(
         <div>
 
-            <div><h1 className="text-center text-danger mt-5">Welcome to <span> 𝒫𝑒𝓇𝓊𝓅𝒶𝓁𝑒𝓂 𝐹💙💗𝒹𝓈 ❤️</span></h1></div>
+            <div><h1 className="text-center text-danger mt-5">Welcome to <span> 𝒫𝑒𝓇𝓊𝓅𝒶𝓁𝑒𝓂 𝐹💙❤️𝒹𝓈 🔥 </span></h1></div>
 
             <div className="row mt-5 mb-5">
                 {
@@ -40,7 +49,15 @@ useEffect(() => {
                                 <div className="card-body d-flex flex-column align-items-center">
                                     <h5 className="card-title">{product.productName}</h5>
                                     <p className="card-text">Price: ${product.price}</p>
-                                    <button type="button" className="btn btn-warning text-center">Order Now</button>
+                                    <button
+                                            type="button"
+                                            className="btn btn-warning"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#orderModal"
+                                            onClick={ () => handleOrderForm(product)}
+                                            >
+                                            Order Now
+                                            </button>
                                 </div>
                             </div>
                         )
@@ -48,6 +65,7 @@ useEffect(() => {
                 }
             </div>
 
+            <Order selectedProduct={selectedProduct}/>
         </div>
     )
 }

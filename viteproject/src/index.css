@@ -80,3 +80,29 @@ body {
   color: #bdbdbd;
   font-size: 14px;
 }
+.order-modal {
+  border-radius: 20px;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.order-image {
+  height: 250px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.order-modal .form-control {
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.order-modal .form-control:focus {
+  box-shadow: none;
+  border: 2px solid #ffc107;
+}
+
+.order-modal textarea {
+  resize: none;
+}
