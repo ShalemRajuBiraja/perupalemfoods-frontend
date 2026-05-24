@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../index.css";
 
-import { useNavigate } from "react-router-dom";
-
 const Login = () => {
-  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -114,13 +111,10 @@ const Login = () => {
             localStorage.setItem("userData", JSON.stringify(loginResponse.data.data));
             localStorage.setItem("token", loginResponse.data.data.token);
             window.location.href = "/home";
-            resetForm();
-            //navigate("/home");
           }
         } catch (err){
             setIsSubmitting(false);
             console.error("Login failed", err);
-            // toast.error("Login failed");
             setErrors({ api: err.response?.data?.message || "Login failed" }); // ✅ Fixed
           }
   };
@@ -208,8 +202,7 @@ const Login = () => {
 
           </div>
         </div>
-      </div> 
-
+      </div>
     </div>
   );
 };

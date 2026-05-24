@@ -2,14 +2,12 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import './index.css';
- import { ToastContainer } from 'react-toastify';
- import 'react-toastify/dist/ReactToastify.css';  // ⚠️ Must import CSS
+// import { ToastContainer } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';  // ⚠️ Must import CSS
 
 import Home from './pages/Home.jsx';
 import Login from './components/Login.jsx';
 import Signup from './components/Signup.jsx';
-import MyOrders from './pages/MyOrders.jsx';
-import ViewCart from './pages/ViewCart.jsx';
 
 
 
@@ -32,11 +30,8 @@ createRoot(document.getElementById('root')).render(
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/myorders" element={<MyOrders />} />
-        <Route path="/viewcart" element={<ViewCart />} /> 
-        <Route path="/products" element={<Home />} />
+        <Route path="/login" element={<Home />} />
+        <Route path="/signup" element={<Home />} />
       </Routes>
 
     </BrowserRouter>

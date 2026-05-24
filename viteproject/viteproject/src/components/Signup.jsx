@@ -175,10 +175,12 @@ const Signup = () => {
       setApiError("");
       setApiSuccess("");
 
-      const apiResponse = await axios.post("http://localhost:8080/auth/signup",signupData);
+      const apiResponse = await axios.post(
+        "http://localhost:8080/auth/signup",
+        signupData
+      );
 
       console.log("Signup successful:", apiResponse.data);
-      toast.success("Account created successfully! Please login.");
       setApiSuccess("Account created successfully! Please login. ✅");
       setIsSubmitting(false);
 

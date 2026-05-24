@@ -3,10 +3,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../index.css';
 import Order from './Order';
-import { useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-
-import { toast } from "react-toastify";
 
 
 const Body = () =>{
@@ -14,45 +10,12 @@ const Body = () =>{
 //variables
  let[productslist, setProductsList] = useState([]);
  const[selectedProduct, setSelectedProduct] = useState(null);
- const[cartItems, setCartItems] = useState([]);
- const loggedInUser = JSON.parse(localStorage.getItem("userData"));
+
+
 
  const handleOrderForm = (product) =>{
     setSelectedProduct(product);
  }
-
-/*
-1. Receive product object as parameter
-2. Add product to cartItems state
-3. Make API call to backend to save cart item in database (optional but recommended)
-4. Show success toast on successful addition, error toast on failure
-*/
- const handleAddToCart = async (product) =>{
-    try{
-        const apiData = {
-            userId: loggedInUser.userId,
-            productId: product.productId,
-            productName: product.productName,
-            price: product.price,
-            imageUrl: product.imageUrl
-        }
-            const apiResponse = await axios.post("http://localhost:8080/addToCart", apiData);
-           if(apiResponse.data.success === true){
-                setCartItems([...cartItems, product]);
-               // alert("Product added to cart successfully!");
-                toast.success("Product added to cart successfully!");
-               console.log("Cart items:", cartItems);
-           } 
-
-    } catch (error){
-        //alert("Error adding product to cart!");
-        toast.error("Failed to add product to cart.");
-        console.log("fullerrors:", error);
-        console.log("Error:", error.message);
-        //console.log("Error response:", error.response.data);
-    }
-
-    }
 
 
 useEffect(() => {
@@ -95,16 +58,6 @@ useEffect(() => {
                                             >
                                             Order Now
                                             </button>
-                                    <button type="button" 
-                                            className="btn btn-success mt-2"
-                                            onClick={ () => handleAddToCart(product) }
-                                            >
-                                                Add to Cart
-                                    </button>
-                                    <button type="button" className="btn btn-success mt-2" onClick={() => alert("Review funcation aviliable soon!")}>
-                                        Review
-                                    </button>
-                                  
                                 </div>
                             </div>
                         )
@@ -113,21 +66,8 @@ useEffect(() => {
             </div>
 
             <Order selectedProduct={selectedProduct}/>
-
-
-        <ToastContainer
-          position="top-right"
-          autoClose={1000}
-          hideProgressBar={false}
-          newestOnTop={true}
-          closeOnClick
-          pauseOnHover
-          theme="dark"
-          />
-
         </div>
     )
-
 }
 export default Body;
 

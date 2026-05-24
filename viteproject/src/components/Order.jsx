@@ -1,148 +1,130 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
-const Order = ({selectedProduct}) => {
+const Order = ({ selectedProduct }) => {
 
+  // ✅ Fix 2 — quantity state declared
+  const [quantity, setQuantity] = useState(1);
+
+  // ✅ Fix 1 — handleConfirmOrder is separate, return is outside
+  const handleConfirmOrder = async () => {
+    try {
+      const orderData = {
+        productId: selectedProduct.productId,
+        productName: selectedProduct.productName,
+        price: selectedProduct.price,
+        quantity: quantity  // ✅ Fix 4 — use quantity state
+       
+      };
+
+      const orderResponse = await axios.post( "http://localhost:8080/placeOrder", orderData);
+
+      console.log(orderResponse);
+      alert("Order placed successfully!");
+      toast.success("Order placed successfully!");
+      window.location.reload();
+
+    } catch (error) {
+      console.error("Error placing order:", error);
+      //alert("Failed to place order. Please try again.");
+      toast.error("Failed to place order. Please try again.");
+    }
+  };  // ✅ handleConfirmOrder closes here
+
+  // ✅ return is outside and after handleConfirmOrder
   return (
-
     <div
       className="modal fade"
       id="orderModal"
       tabIndex="-1"
       aria-hidden="true"
     >
-
-      <div className="modal-dialog modal-dialog-centered modal-lg">
-
+      <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content order-modal">
 
           {/* Header */}
           <div className="modal-header border-0">
-
             <h3 className="modal-title fw-bold text-warning">
               🍔 Confirm Your Order
             </h3>
-
             <button
               type="button"
               className="btn-close"
               data-bs-dismiss="modal"
             ></button>
-
           </div>
 
           {/* Body */}
-          <div className="modal-body">
+          <div className="modal-body text-center">
 
-            <div className="row">
+            <img
+              src={selectedProduct?.imageUrl}
+              alt="Food"
+              className="img-fluid rounded order-image"
+            />
 
-              {/* Left Side Product Image */}
-              <div className="col-md-5 text-center">
+            <h4 className="mt-3 fw-bold">
+              {selectedProduct?.productName}
+            </h4>
 
-                <img
-                  src={selectedProduct?.imageUrl}
-                  alt="Food"
-                  className="img-fluid rounded order-image"
-                />
+            <p className="text-muted">
+              Price per item: ₹{selectedProduct?.price}
+            </p>
 
-                <h4 className="mt-3 fw-bold">
-               {selectedProduct?.productName}
-                </h4>
+            <div className="mb-3">
+              <label className="form-label fw-semibold">Quantity</label>
+              <input
+                type="number"
+                className="form-control w-50 mx-auto text-center"
+                placeholder="Enter quantity"
+                min="1"
+                value={quantity}
+                onChange={(e) => setQuantity(Number(e.target.value))}
+              />
+            </div>
 
-                <p className="text-muted">
-                  Price: ₹{selectedProduct?.price}
-                </p>
-
-              </div>
-
-              {/* Right Side Form */}
-              <div className="col-md-7">
-
-                <div className="mb-3">
-
-                  <label className="form-label fw-semibold">
-                    Customer Name
-                  </label>
-
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter your name"
-                  />
-
-                </div>
-
-                <div className="mb-3">
-
-                  <label className="form-label fw-semibold">
-                    Mobile Number
-                  </label>
-
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter mobile number"
-                  />
-
-                </div>
-
-                <div className="mb-3">
-
-                  <label className="form-label fw-semibold">
-                    Delivery Address
-                  </label>
-
-                  <textarea
-                    className="form-control"
-                    rows="3"
-                    placeholder="Enter your address"
-                  ></textarea>
-
-                </div>
-
-                <div className="mb-3">
-
-                  <label className="form-label fw-semibold">
-                    Quantity
-                  </label>
-
-                  <input
-                    type="number"
-                    className="form-control"
-                    placeholder="Enter quantity"
-                  />
-
-                </div>
-
-              </div>
-
+            <div className="total-box mt-3">
+              <h5 className="fw-bold">
+                Total Amount: ₹{selectedProduct?.price * quantity || 0}
+              </h5>
             </div>
 
           </div>
 
           {/* Footer */}
-          <div className="modal-footer border-0">
-
+          <div className="modal-footer border-0 justify-content-center">
             <button
               className="btn btn-outline-secondary px-4"
               data-bs-dismiss="modal"
             >
               Cancel
             </button>
-
-            <button className="btn btn-warning px-4 fw-bold">
+            <button
+              className="btn btn-warning px-4 fw-bold"
+              onClick={handleConfirmOrder}
+            >
               Confirm Order
             </button>
-
           </div>
 
         </div>
-
       </div>
-
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        pauseOnHover
+        theme="dark"
+    />
     </div>
-
   );
+
 };
 
 export default Order;

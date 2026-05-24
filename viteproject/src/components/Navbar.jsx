@@ -4,16 +4,15 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../index.css";
 import {checkIsUserLoggedIn} from "../utils/utils";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
+import { ToastContainer } from "react-toastify";
 
 const Navbar = () => {
 
   const navigate = useNavigate();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    checkIsUserLoggedIn()
-);
+  const [isLoggedIn, setIsLoggedIn] = useState(checkIsUserLoggedIn());
 
   // Logout function
       const handleLogout = () => {
@@ -29,13 +28,38 @@ const Navbar = () => {
           navigate("/");              // if using React Router
 
           // 5. Optional: show success toast
-          toast.success("Logged out successfully!");
+          toast.success("Logged out successfully");
 
         } catch (error) {
           console.error("Logout failed:", error);
           // toast.error("Something went wrong during logout.");
         }
       };
+
+      const handleProfile = () => {
+        toast.info("Profile page coming soon!");
+      };
+
+      const handleDashboard = () => {
+        toast.info("Dashboard page coming soon!");
+      };
+
+      const handleAddress = () => {
+        toast.info("Address page coming soon!");
+      };
+
+      const handleNotifications = () => {
+        toast.info("Notifications page coming soon!");
+      };
+
+      const handleAccounts = () => {
+        toast.info("Account management page coming soon!");
+      }
+      
+      const handleSettings = () => {
+        toast.info("Settings page coming soon!");
+      }
+
 
 
 
@@ -50,32 +74,33 @@ const Navbar = () => {
           🍔 BiteRush
         </a>
 
-        {/* Right Side Links */}
-        <div className="d-flex align-items-center gap-3">
+          {/* Right Side Links */}
+          <div className="d-flex align-items-center gap-3">
 
-          <a className="nav-link text-white" href="/home">
-            HOME
-          </a>
+            <Link className="nav-link text-white" to="/home">
+              HOME
+            </Link>
+            <Link className="nav-link text-white" to="/products">
+              PRODUCTS
+            </Link>
+            <Link className="nav-link text-white" to="/types">
+              TYPES
+            </Link>
+            <Link className="nav-link text-white" to="/contact">
+              CONTACT US
+            </Link>
+            <Link className="nav-link text-white" to="/promotions">
+              PROMOTIONS
+            </Link>
+          
+              {
+                    isLoggedIn &&
 
-          <a className="nav-link text-white" href="/products">
-            PRODUCTS
-          </a>
+                    <Link className="nav-link text-white" to="/myorders">  MY ORDERS</Link>
+              }
 
-          <a className="nav-link text-white" href="/types">
-            TYPES
-          </a>
-
-
-          <a className="nav-link text-white" href="/contact">
-            CONTACT US
-          </a>
-          {
-            isLoggedIn &&
-            <a className="nav-link text-white" href="/orders">
-              MY ORDERS
-            </a> 
-          }
-
+          </div>
+           
           <div>
             <div className="dropdown">
               <button
@@ -86,48 +111,43 @@ const Navbar = () => {
               >
               My Account
               </button>
-
               <ul className="dropdown-menu">
-              
                   <li>
-                       { 
+                      { 
                         isLoggedIn &&
                          <div>
-                          <button className="btn btn-light login-btn dropdown-item" onClick={handleLogout}> Profile </button>
-                          <button className="btn btn-light login-btn dropdown-item" onClick={handleLogout}> Dashboard </button>
-                          <button className="btn btn-light login-btn dropdown-item" onClick={handleLogout}> Settings </button>
-                          <button className="btn btn-light login-btn dropdown-item" onClick={handleLogout}> Manage Address </button>
-                          <button className="btn btn-light login-btn dropdown-item" onClick={handleLogout}> Notifications </button>
-                          <button className="btn btn-light login-btn dropdown-item" onClick={handleLogout}> Manage Account </button>
-                          <button className="btn btn-danger login-btn dropdown-item text-red" onClick={handleLogout}> Logout </button>
+                          <button className="btn btn-light profile-btn dropdown-item" onClick={handleProfile}> Profile </button>
+                          <button className="btn btn-light dashboard-btn dropdown-item" onClick={handleDashboard}> Dashboard </button>
+                          <Link to="/viewcart"  className="btn btn-warning cart-btn m-2"> View cart </Link>
+                          <button className="btn btn-light settings-btn dropdown-item" onClick={handleSettings}> Settings </button>
+                          <button className="btn btn-light address-btn dropdown-item" onClick={handleAddress}> Manage Address </button>
+                          <button className="btn btn-light notifications-btn dropdown-item" onClick={handleNotifications}> Notifications </button>
+                          <button className="btn btn-light accounts-btn dropdown-item" onClick={handleAccounts}> Manage Account </button>
+                          <button type="button" className="btn btn-danger logout-btn m-3" onClick={handleLogout}>Logout ➡️</button>
                          </div>
-                       }
+                      }
                   </li>
 
                   <li>
                       {
                         !isLoggedIn &&
-                        <button
-                        className="btn btn-light login-btn dropdown-item"
-                        data-bs-toggle="modal"
-                        data-bs-target="#loginModal"
-                      >
-                        Login
-                      </button>
-                      }
-                    </li>
-
-                    <li>
-                      {
-                        !isLoggedIn && 
+                        <div>
+                           <button
+                              className="btn btn-light login-btn dropdown-item"
+                              data-bs-toggle="modal"
+                              data-bs-target="#loginModal"
+                            >
+                              Login
+                            </button>
+                            <button
+                              className="btn btn-dark signup-btn dropdown-item"
+                              data-bs-toggle="modal"
+                              data-bs-target="#signupModal"
+                            >
+                               Signup
+                            </button>
+                        </div>
                       
-                          <button
-                            className="btn btn-dark signup-btn dropdown-item"
-                            data-bs-toggle="modal"
-                            data-bs-target="#signupModal"
-                          >
-                            Signup
-                          </button>
                       }
                     </li>
                
@@ -137,10 +157,8 @@ const Navbar = () => {
 
         </div>
 
-      </div>
-
     </nav>
-  );
+  )
 };
 
 export default Navbar;

@@ -1,19 +1,6 @@
-html,
-body,
-#root {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
 
-.app-container {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.main-content {
-    flex: 1;
+body {
+  margin: 0;
 }
 .custom-navbar {
   background-color: #ff6b35;
