@@ -51,6 +51,32 @@ useEffect(() => {
 
 }, []);
 
+//function to handle delete cart item
+const handleDeleteItem = async (cartId) => {
+
+    try {
+
+        await axios.delete(
+            `http://localhost:8080/deleteCartItem/${cartId}`
+        );
+
+        // Remove item from frontend state
+        const updatedCart = cartItems.filter(
+            (item) => item.cartId !== cartId
+        );
+
+        setCartItems(updatedCart);
+
+        toast.success("Item removed successfully!");
+
+    } catch (error) {
+
+        console.log(error);
+
+        toast.error("Failed to remove item");
+    }
+};
+
   return (
 
     <div className="app-container">
@@ -80,11 +106,11 @@ useEffect(() => {
 
                             /* Cart Items List */
                             cartItems.map((item) => (
-
+                                    
                                 <div key={item.cartId} className="card mb-3 p-3 shadow-sm">
 
                                     <div className="d-flex align-items-center gap-3">
-
+                                    {console.log(item)}
                                         {/* Product Image */}
                                         <img
                                             src={item.imageUrl}
@@ -93,9 +119,11 @@ useEffect(() => {
                                         />
 
                                         {/* Product Details */}
-                                        <div className="flex-grow-1">
+                                       <div className="flex-grow-1">
 
-                                            <h5 className="fw-bold mb-1">{item.productName}</h5>
+                                            <h5 className="fw-bold mb-1">
+                                                {item.productName}
+                                            </h5>
 
                                             <p className="text-muted mb-1">
                                                 Price: ₹{item.productPrice}
@@ -105,9 +133,23 @@ useEffect(() => {
                                                 Quantity: {item.quantity}
                                             </p>
 
-                                            <p className="fw-bold text-warning mb-0">
-                                                Subtotal: ₹{item.productPrice * item.quantity}
-                                            </p>
+                                    <div className="d-flex justify-content-between align-items-center mt-3">
+
+                                        <p className="fw-bold text-warning mb-0">
+                                            Subtotal: ₹{
+                                                (Number(item.productPrice) || 0) *
+                                                (Number(item.quantity) || 0)
+                                            }
+                                        </p>
+
+                                        <button
+                                            className="btn btn-danger btn-sm"
+                                            onClick={() => handleDeleteItem(item.cartId)}
+                                        >
+                                            Delete
+                                        </button>
+
+                                    </div>
 
                                         </div>
 

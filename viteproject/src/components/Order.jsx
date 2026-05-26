@@ -9,17 +9,30 @@ const Order = ({ selectedProduct }) => {
 
   // ✅ Fix 2 — quantity state declared
   const [quantity, setQuantity] = useState(1);
+  const loggedInUser = JSON.parse(localStorage.getItem("userData"));
+  const userId = loggedInUser?.userId;
 
   // ✅ Fix 1 — handleConfirmOrder is separate, return is outside
   const handleConfirmOrder = async () => {
     try {
       const orderData = {
+        userId: userId,
         productId: selectedProduct.productId,
         productName: selectedProduct.productName,
         price: selectedProduct.price,
         quantity: quantity  // ✅ Fix 4 — use quantity state
        
-      };
+  };
+  const handleDeleteCartItem = (productId) => {
+
+    const updatedCart = cartItems.filter(
+        (item) => item.productId !== productId
+    );
+
+    setCartItems(updatedCart);
+
+    toast.success("Item removed from cart!");
+  };    
 
       const orderResponse = await axios.post( "http://localhost:8080/placeOrder", orderData);
 
@@ -96,7 +109,7 @@ const Order = ({ selectedProduct }) => {
           </div>
 
           {/* Footer */}
-          <div className="modal-footer border-0 justify-content-center">
+         <div className="modal-footer border-0 justify-content-center gap-2">
             <button
               className="btn btn-outline-secondary px-4"
               data-bs-dismiss="modal"

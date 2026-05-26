@@ -1,29 +1,176 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import '../index.css';
 
-const MyOrders = () =>{
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
+const MyOrders = () => {
 
-return(
+    const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const loggedInUser = JSON.parse(localStorage.getItem("userData"));
+
+    const loggedInUserId = loggedInUser?.userId;
+
+    useEffect(() => {
+
+        fetchOrders();
+
+    }, []);
+
+    const fetchOrders = async () => {
+
+        try {
+
+            setLoading(true);
+            console.log("Fetching orders for userId:", loggedInUserId);
+
+            const orderApiResponse = await axios.get( `http://localhost:8080/getOrders/${loggedInUserId}`);
+                console.log("Order API response:", orderApiResponse);
+            if(orderApiResponse.data.success){
+
+                setOrders(orderApiResponse.data.data);
+
+            }
+
+        } catch(error){
+
+            console.error("Failed to fetch orders", error);
+
+            toast.error(
+                error.response?.data?.message ||
+                "Failed to fetch orders"
+            );
+
+        } finally {
+
+            setLoading(false);
+
+        }
+    };
+
+    return (
 
         <div className='app-container'>
-        <Navbar />
-               
-            <div className='row'>
-                <div className='col-12'>
-                    <h1 className='text-center mt-5'>My Orders</h1>
-                        <p className='text-center'>No orders yet</p>
+
+            <Navbar />
+
+            <div className='main-content container'>
+
+                <div className='row'>
+
+                    <div className='col-12'>
+
+                        <h1 className='text-center myorders-heading'>
+                            My Orders
+                        </h1>
+
+                    </div>
+
                 </div>
 
+                {
+                    loading ? (
+
+                        <div className='text-center mt-5'>
+
+                            <div className='spinner-border text-warning'></div>
+
+                            <p className='mt-3'>
+                                Loading orders...
+                            </p>
+
+                        </div>
+
+                    ) : orders.length === 0 ? (
+
+                        <div className='text-center empty-orders'>
+
+                            <h3>No Orders Yet 😔</h3>
+
+                            <p>
+                                Start ordering your favorite food!
+                            </p>
+
+                        </div>
+
+                    ) : (
+
+                        <div className='row mt-4'>
+
+                            {
+                                orders.map((order) => (
+
+                                    <div
+                                        className='col-lg-4 col-md-6 mb-4'
+                                        key={order.orderId}
+                                    >
+
+                                        <div className='card myorder-card'>
+
+                                            <img
+                                                src={order.imageUrl}
+                                                className='card-img-top myorder-image'
+                                                alt={order.productName}
+                                            />
+
+                                            <div className='card-body'>
+
+                                                <h5 className='card-title'>
+                                                    {order.productName}
+                                                </h5>
+
+                                                <p className='card-text'>
+                                                    Price:
+                                                    <span className='order-price'>
+                                                        ₹{order.productPrice}
+                                                    </span>
+                                                </p>
+
+                                                <p className='card-text'>
+                                                    Quantity:
+                                                    <span className='order-quantity'>
+                                                        {order.productQuantity}
+                                                    </span>
+                                                </p>
+
+                                                <p className='card-text'>
+                                                    Status:
+                                                    <span className='order-status'>
+                                                        In Progress
+                                                    </span>
+                                                </p>
+
+                                                <button
+                                                    className='btn btn-warning w-100 mt-2'
+                                                >
+                                                    View Details
+                                                </button>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                ))
+                            }
+
+                        </div>
+
+                    )
+                }
+
             </div>
-            
-        <Footer />
+
+            <Footer />
+
         </div>
-    )
 
+    );
+};
 
-
-}
 export default MyOrders;

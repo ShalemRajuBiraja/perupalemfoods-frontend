@@ -119,3 +119,75 @@ body,
 .order-modal textarea {
   resize: none;
 }
+/* ===========================
+   MY ORDERS PAGE
+=========================== */
+
+.myorders-heading {
+    font-size: 42px;
+    font-weight: bold;
+    color: #111827;
+    margin-top: 40px;
+}
+
+.myorder-card {
+    border: none;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    transition: 0.3s ease;
+    height: 100%;
+}
+
+.myorder-card:hover {
+    transform: translateY(-8px);
+}
+
+.myorder-image {
+    height: 240px;
+    object-fit: cover;
+}
+
+.order-price {
+    color: #dc2626;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.order-quantity {
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.order-status {
+    color: green;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.empty-orders {
+    margin-top: 100px;
+    color: #6b7280;
+}
+
+.empty-orders h3 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.empty-orders p {
+    font-size: 18px;
+}
+
+/* Responsive */
+
+@media screen and (max-width: 768px) {
+
+    .myorders-heading {
+        font-size: 32px;
+    }
+
+    .myorder-image {
+        height: 200px;
+    }
+}
