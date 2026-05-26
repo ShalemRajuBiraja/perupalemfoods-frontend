@@ -54,27 +54,28 @@ useEffect(() => {
 //function to handle delete cart item
 const handleDeleteItem = async (cartId) => {
 
-    try {
+    // try {
 
-        await axios.delete(
-            `http://localhost:8080/deleteCartItem/${cartId}`
-        );
+    //     await axios.delete(
+    //         `http://localhost:8080/deleteCartItem/${cartId}`
+    //     );
 
-        // Remove item from frontend state
-        const updatedCart = cartItems.filter(
-            (item) => item.cartId !== cartId
-        );
+    //     // Remove item from frontend state
+    //     const updatedCart = cartItems.filter(
+    //         (item) => item.cartId !== cartId
+    //     );
 
-        setCartItems(updatedCart);
+    //     setCartItems(updatedCart);
 
-        toast.success("Item removed successfully!");
+    //     toast.success("Item removed successfully!");
 
-    } catch (error) {
+    // } catch (error) {
 
-        console.log(error);
+    //     console.log(error);
 
-        toast.error("Failed to remove item");
-    }
+    //     toast.error("Failed to remove item");
+    // }
+    alert("Delete functionality coming soon!");
 };
 
   return (

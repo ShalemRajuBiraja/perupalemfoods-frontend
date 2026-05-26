@@ -144,12 +144,10 @@ const MyOrders = () => {
                                                     </span>
                                                 </p>
 
-                                                <button
-                                                    className='btn btn-warning w-100 mt-2'
-                                                >
-                                                    View Details
-                                                </button>
-
+                                                <div class="d-grid gap-2">
+                                                    <button className='btn btn-warning mt-2'> View Details </button>
+                                                    <button className="btn btn-danger mt-2" type="button">Remove</button>
+                                                </div>
                                             </div>
 
                                         </div>

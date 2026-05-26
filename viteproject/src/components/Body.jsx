@@ -95,15 +95,8 @@ useEffect(() => {
                                             >
                                             Order Now
                                             </button>
-                                    <button type="button" 
-                                            className="btn btn-success mt-2"
-                                            onClick={ () => handleAddToCart(product) }
-                                            >
-                                                Add to Cart
-                                    </button>
-                                    <button type="button" className="btn btn-success mt-2" onClick={() => alert("Review funcation aviliable soon!")}>
-                                        Review
-                                    </button>
+                                    <button type="button" className="btn btn-success mt-2" onClick={ () => handleAddToCart(product) } >Add to Cart </button>
+                                    <button type="button" className="btn btn-success mt-2" onClick={() => alert("Review funcation aviliable soon!")}>Review</button>
                                   
                                 </div>
                             </div>
