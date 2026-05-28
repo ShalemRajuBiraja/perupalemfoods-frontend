@@ -26,11 +26,10 @@ const MyOrders = () => {
         try {
 
             setLoading(true);
-            console.log("Fetching orders for userId:", loggedInUserId);
+            // console.log("Fetching orders for userId:", loggedInUserId);
 
             const orderApiResponse = await axios.get( `http://localhost:8080/getOrders/${loggedInUserId}`);
-                console.log("Order API response:", orderApiResponse);
-            if(orderApiResponse.data.success){
+            if(orderApiResponse.data.success){``
 
                 setOrders(orderApiResponse.data.data);
 
@@ -51,6 +50,17 @@ const MyOrders = () => {
 
         }
     };
+    const handleRemoveOrder = async (orderId) => {
+        try {
+            await axios.delete(`http://localhost:8080/deleteOrder/${orderId}`);
+            toast.success("Order removed successfully!");
+            fetchOrders(); // Refresh the orders list after deletion
+        } catch (error) {
+            console.error("Failed to remove order:", error);
+            toast.error("Failed to remove order. Please try again.");
+        }
+    };
+
 
     return (
 
@@ -146,7 +156,9 @@ const MyOrders = () => {
 
                                                 <div class="d-grid gap-2">
                                                     <button className='btn btn-warning mt-2'> View Details </button>
-                                                    <button className="btn btn-danger mt-2" type="button">Remove</button>
+                                                    <button className="btn btn-danger mt-2" type="button" onClick={() => handleRemoveOrder(order.orderId)}>
+                                                        Remove
+                                                    </button>
                                                 </div>
                                             </div>
 
